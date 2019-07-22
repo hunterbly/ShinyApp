@@ -359,12 +359,25 @@ get_hit_signal <- function(ref.date, format = 'wide'){
 
 save_hit_signal <- function(df.signal){
 
+  ## Save the hit signal to the database
+  ##
+  ## Args:
+  ##  df.signal (dataframe): Dataframe of the hit signal in long format
+  ##
+  ## Returns:
+  ##  NULL
+  ##
+  ## Example:
+  ##   df = get_hit_signal(ref.date = '2019-07-03', format = 'long')
+  ##   save_hit_signal(df.signal = df)
+
+
   # Filter out non zero hit and add id column at the front being insert
   df.signal.nz = df.signal %>% filter(hit != 0)
 
   sql_write(df    = df.signal.nz,
             table = 'signal_history',
-            key   = NULL)
+            key   = 'date')
 
   return(NULL)
 }
