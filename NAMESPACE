@@ -1,0 +1,6 @@
+exportPattern("^[^\\\\.]")
+import(dplyr)
+import(tidyr)
+import(lazyeval)
+import("RPostgreSQL")
+import(magrittr)

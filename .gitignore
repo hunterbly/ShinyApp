@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+
+# exclude everything
+spaghetti/*
+
+# exception to the rule
+!spaghetti/.gitkeep
+
+# log
+.log
+
+test.py
+.ftpconfig
