@@ -62,13 +62,13 @@ sql_query <- function(sql){
 
 }
 
-sql_write <- function(df, table, key){
+sql_write <- function(df, table, key = NULL){
   ## Write dataframe to table
   ##
   ## Arg
   ##  df (Dataframe): Dataframe to be written to table
   ##  table (str): Name of the table name
-  ##  key (List[str]): List of columns to be check for duplicate records
+  ##  key (List[str]): List of columns to be check for duplicate records. Currently only support single column
   ##
   ## Return
   ##  res:
@@ -76,6 +76,36 @@ sql_write <- function(df, table, key){
   ## Example
   ##
   ##
+
+  if(nrow(df) == 0){
+    stop_quietly("Number of rows of dataframe is zero")
+  }
+
+
+  # If key is provided, then check if there is records in the database
+  if(is.not.null(key)){
+    # Select distinct values from dataframe
+    list.values = df.nz %>%
+      select(date) %>%
+      unique %>%
+      as.list() %>%
+      sapply(function(x){format(x, "%Y-%m-%d")})
+
+    # SQL to test if records exist in the table
+    check_statement = sprintf("SELECT
+                                COUNT(1)
+                               FROM
+                                %s
+                              WHERE
+                                %s IN ('%s')", table, key, paste0(as.character(list.values)))
+
+    records = sql_query(check_statement)
+
+    # Return error message if record exists
+    if (records > 0){
+      stop_quietly(sprintf("Records already exists in table %s", table))
+    }
+  }
 
   conn <- sql_connection()
 
@@ -87,9 +117,10 @@ sql_write <- function(df, table, key){
 
   DBI::dbDisconnect(conn)
 
+  print(sprintf("Inserted %s records in table %s", nrow(df), table))
+
   return(NULL)
 }
-
 
 ####
 # Function interfaces
