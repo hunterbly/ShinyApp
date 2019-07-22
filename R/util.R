@@ -12,3 +12,6 @@ stop_quietly <- function(msg) {
   on.exit(options(opt))
   stop(msg, call. = FALSE)
 }
+
+# Add is not null function
+is.not.null <- function(x) !is.null(x)
