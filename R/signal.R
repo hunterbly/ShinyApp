@@ -381,3 +381,30 @@ save_hit_signal <- function(df.signal){
 
   return(NULL)
 }
+
+get_signal_history <- function(code, signal){
+
+  ## To be added
+  ##
+  ## Args:
+  ##  stock (str): Stock code
+  ##  signal (str): Signal name
+  ##
+  ## Returns:
+  ##  res (Dataframe)
+  ##
+  ## Example:
+
+  sql = "
+    SELECT
+      *
+    FROM
+      singal_history
+    WHERE
+      code =
+  "
+
+
+
+  return(NULL)
+}
