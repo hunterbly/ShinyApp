@@ -382,11 +382,12 @@ save_hit_signal <- function(df.signal){
   return(NULL)
 }
 
-get_signal_history <- function(code, signal){
+get_signal_history <- function(date, code, signal){
 
   ## To be added
   ##
   ## Args:
+  ##  date (str): Date in YYYY-MM-DD format
   ##  stock (str): Stock code
   ##  signal (str): Signal name
   ##
@@ -395,16 +396,31 @@ get_signal_history <- function(code, signal){
   ##
   ## Example:
 
-  sql = "
-    SELECT
-      *
-    FROM
-      singal_history
-    WHERE
-      code =
-  "
+  # WHERE statement
+  if(is.not.null(date)){
 
+    where = sprintf("WHERE date = %s", date)
 
+  } else if (is.not.null(code)){
 
-  return(NULL)
+    code  = stringr::str_pad(code, 5, pad = "0")
+    where = sprintf("WHERE code = %s", code)
+
+  } else{
+    stop_quietly("Not supported")
+
+  }
+
+  select = "SELECT *
+         FROM signal_history"
+
+  sql = sprintf("%s %s", select, where)
+
+  df = sql_query(sql)
+  # Handle signal filtering
+  # if(is.not.null(signal)){
+  #
+  # }
+
+  return(df)
 }
