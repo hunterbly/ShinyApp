@@ -419,10 +419,16 @@ get_signal_history <- function(date = NULL,
   sql = sprintf("%s %s", select, where)
 
   df = sql_query(sql)
-  # Handle signal filtering
-  # if(is.not.null(signal)){
-  #
-  # }
 
-  return(df)
+  # Handle signal filtering
+  if(is.not.null(signal)){
+    df.filtered = df %>%
+                    dplyr::filter(signal == !!signal) %>%
+                    data.table::as.data.table()
+
+  } else{
+    df.filtered = df
+  }
+
+  return(df.filtered)
 }
