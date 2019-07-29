@@ -382,7 +382,9 @@ save_hit_signal <- function(df.signal){
   return(NULL)
 }
 
-get_signal_history <- function(date, code, signal){
+get_signal_history <- function(date = NULL,
+                               code = NULL,
+                               signal = NULL){
 
   ## To be added
   ##
@@ -399,12 +401,12 @@ get_signal_history <- function(date, code, signal){
   # WHERE statement
   if(is.not.null(date)){
 
-    where = sprintf("WHERE date = %s", date)
+    where = sprintf("WHERE date = '%s'", date)
 
   } else if (is.not.null(code)){
 
     code  = stringr::str_pad(code, 5, pad = "0")
-    where = sprintf("WHERE code = %s", code)
+    where = sprintf("WHERE code = '%s'", code)
 
   } else{
     stop_quietly("Not supported")
